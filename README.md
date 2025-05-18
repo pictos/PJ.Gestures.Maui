@@ -1,4 +1,6 @@
-# Title
+# PJ.Gestures.Maui
+
+A library that exposes better gestures supports than the default one on .NET MAUI framework.
 
 ## Support
 
