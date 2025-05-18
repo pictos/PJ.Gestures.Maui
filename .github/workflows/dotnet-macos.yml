@@ -10,7 +10,6 @@ on:
 
 env:
     LIB_CSPROJ: src/PJ.Gestures.Maui/PJ.Gestures.Maui.csproj
-    SAMPLE_CSPROJ: samples/PJ.Gestures.Maui.Samples/PJ.Gestures.Maui.Samples.csproj
 
 jobs:
   build:
