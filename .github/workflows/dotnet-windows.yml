@@ -18,7 +18,7 @@ env:
     SAMPLE_CSPROJ: samples/PJ.Gestures.Maui.Samples/PJ.Gestures.Maui.Samples.csproj
     NugetPackageVersion: '99.0.0-preview${{ github.run_number }}'
     CurrentSemanticVersionBase: '99.0.0'
-    Package_Creation_Path: Path_To_Lookup_Into_Nuget
+    Package_Creation_Path: src/PJ.Gestures.Maui
 
 jobs:
   build:
