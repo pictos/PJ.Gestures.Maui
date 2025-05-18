@@ -44,6 +44,9 @@ jobs:
     
     - name: Restore library dependencies
       run: dotnet restore ${{env.LIB_CSPROJ}}
+
+    - name: Restore Windows
+      run: dotnet restore --runtime win-x64
     
     - name: Restore sample dependencies
       run: dotnet restore ${{env.SAMPLE_CSPROJ}}
