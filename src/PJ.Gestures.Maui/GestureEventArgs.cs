@@ -12,7 +12,7 @@ public sealed class SwipeEventArgs(Point[] touches, Vector2 distance, Vector2 ve
 	public Vector2 Velocity { get; } = velocity;
 }
 
-public sealed class LongEventArgs(Point touch, Rect viewPosition) : SingleTapEventArgs(touch, viewPosition);
+public sealed class LongPressEventArgs(Point touch, Rect viewPosition) : SingleTapEventArgs(touch, viewPosition);
 
 public sealed class TapEventArgs(Point touch, Rect viewPosition) : SingleTapEventArgs(touch, viewPosition);
 
