@@ -14,11 +14,11 @@ on:
   
 
 env:
-    LIB_CSPROJ: Path_To_Plugin
-    SAMPLE_CSPROJ: Path_To_Sample
+    LIB_CSPROJ: src/PJ.Gestures.Maui/PJ.Gestures.Maui.csproj
+    SAMPLE_CSPROJ: samples/PJ.Gestures.Maui.Samples/PJ.Gestures.Maui.Samples.csproj
     NugetPackageVersion: '99.0.0-preview${{ github.run_number }}'
     CurrentSemanticVersionBase: '99.0.0'
-    Package_Creation_Path: Path_To_Lookup_Into_Nuget
+    Package_Creation_Path: src/PJ.Gestures.Maui
 
 jobs:
   build:
@@ -27,35 +27,21 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 9.0.x
-    
+
     - name: Get Nuget version and Name for PR
       if: ${{ github.event_name == 'pull_request' }}
       run: |
         echo "NugetPackageVersion=${{ env.CurrentSemanticVersionBase }}-build-${{ github.event.pull_request.number }}.${{ github.run_number }}+${{ github.sha }}"
       shell: bash
-    
-    - name: Workload install
-      run: dotnet workload install maui
-    
-    - name: Restore library dependencies
-      run: dotnet restore ${{env.LIB_CSPROJ}}
-    
-    - name: Restore sample dependencies
-      run: dotnet restore ${{env.SAMPLE_CSPROJ}}
-    
+
     - name: Build library
-      run: dotnet build ${{env.LIB_CSPROJ}} -c Release -p:PackageVersion=${{ env.NugetPackageVersion }} -p:Version=${{ env.NugetPackageVersion }} --no-restore
+      run: dotnet build ${{env.LIB_CSPROJ}} -c Release
     
     - name: Build Sample app
-      run: dotnet build ${{env.SAMPLE_CSPROJ}} -c Release --no-restore
+      run: dotnet build ${{env.SAMPLE_CSPROJ}} -c Release
 
     - name: Create Nuget
-      run: dotnet pack ${{env.LIB_CSPROJ}} -c Release --no-restore --no-build --include-symbols --include-source
+      run: dotnet pack ${{env.LIB_CSPROJ}} -c Release -p:PackageVersion=${{ env.NugetPackageVersion }} -p:Version=${{ env.NugetPackageVersion }} --no-restore --no-build --include-symbols --include-source
     
     - name: Copy NuGet Packages to Staging Directory
       if: ${{ runner.os == 'Windows' && !startsWith(github.ref, 'refs/tags/') }}
