@@ -111,7 +111,7 @@ partial class GestureBehavior
 
 		var touches = CalculateTouches(gesture, view);
 		var rect = CalculateViewPosition(view);
-		var direction = Direction.Unknow;
+		var direction = Direction.Unknown;
 
 		if (status is GestureStatus.Completed or GestureStatus.Canceled & HandlesSwipe)
 		{

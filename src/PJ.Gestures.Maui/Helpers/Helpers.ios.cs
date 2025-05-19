@@ -18,6 +18,6 @@ static partial class Helpers
 		UISwipeGestureRecognizerDirection.Left => Direction.Left,
 		UISwipeGestureRecognizerDirection.Up => Direction.Up,
 		UISwipeGestureRecognizerDirection.Down => Direction.Down,
-		_ => Direction.Unknow
+		_ => Direction.Unknown
 	};
 }
