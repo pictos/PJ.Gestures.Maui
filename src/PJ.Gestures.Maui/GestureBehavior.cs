@@ -49,6 +49,6 @@ public partial class GestureBehavior : PlatformBehavior<VisualElement>
 		System.Diagnostics.Debug.WriteLine($"Called from {name} at line: {number}");
 	}
 
-	static CancellationTokenSource RegisterNewCts() =>
+	internal static CancellationTokenSource RegisterNewCts() =>
 		new(TimeSpan.FromMilliseconds(100));
 }

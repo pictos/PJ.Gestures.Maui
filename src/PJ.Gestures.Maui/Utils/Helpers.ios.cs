@@ -1,6 +1,6 @@
 ﻿using UIKit;
 
-namespace PJ.Gestures.Maui.Helpers;
+namespace PJ.Gestures.Maui;
 static partial class Helpers
 {
 
