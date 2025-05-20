@@ -1,5 +1,4 @@
 ﻿using CoreGraphics;
-using PJ.Gestures.Maui.Helpers;
 using UIKit;
 
 namespace PJ.Gestures.Maui;
