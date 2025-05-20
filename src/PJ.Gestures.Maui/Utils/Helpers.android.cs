@@ -46,7 +46,7 @@ partial class Helpers
 		Assert(e1 is not null);
 
 		var dX = e2.GetX() - e1.GetX();
-		var dY = e2.GetY() - e2.GetY();
+		var dY = e2.GetY() - e1.GetY();
 
 		return ComputeVector(dX, dY, context);
 		

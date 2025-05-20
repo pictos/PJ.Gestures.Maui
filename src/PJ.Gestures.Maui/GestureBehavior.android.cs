@@ -123,7 +123,7 @@ sealed class SimpleGestureListener : GestureDetector.SimpleOnGestureListener
 
 		var touches = ComputeTouches(e2, context);
 
-		// If Previous is null I should infeer that we're hadling the start gesture and it should be zeroed args
+		// If Previous is null I should infer that we're handling the start gesture and it should be zeroed args
 		var status = Previous is null ? e1.Action.ToGestureStatus() : e2.Action.ToGestureStatus();
 
 		var direction = ComputeDirection(distanceX, distanceY);
@@ -239,12 +239,12 @@ sealed class SimpleGestureListener : GestureDetector.SimpleOnGestureListener
 	{
 		var pointers = current.PointerCount;
 		var touches = new Point[pointers];
-		var coordenates = new MotionEvent.PointerCoords();
+		var coordinates = new MotionEvent.PointerCoords();
 
 		for (var i = 0; i < pointers; i++)
 		{
-			current.GetPointerCoords(i, coordenates);
-			touches[i] = new((float)context.FromPixels(coordenates.X), (float)context.FromPixels(coordenates.Y));
+			current.GetPointerCoords(i, coordinates);
+			touches[i] = new((float)context.FromPixels(coordinates.X), (float)context.FromPixels(coordinates.Y));
 		}
 
 		return touches;
