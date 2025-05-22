@@ -59,16 +59,16 @@ partial class GestureBehavior
 
 	protected override void OnDetachedFrom(VisualElement bindable, UIView platformView)
 	{
-		if (tapGestureRecognizer != null)
+		if (tapGestureRecognizer is not null)
 			platformView.RemoveGestureRecognizer(tapGestureRecognizer);
 
-		if (doubleTapGestureRecognizer != null)
+		if (doubleTapGestureRecognizer is not null)
 			platformView.RemoveGestureRecognizer(doubleTapGestureRecognizer);
 
-		if (panGestureRecognizer != null)
+		if (panGestureRecognizer is not null)
 			platformView.RemoveGestureRecognizer(panGestureRecognizer);
 
-		if (longPressGestureRecognizer != null)
+		if (longPressGestureRecognizer is not null)
 			platformView.RemoveGestureRecognizer(longPressGestureRecognizer);
 	}
 
