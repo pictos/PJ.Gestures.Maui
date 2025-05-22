@@ -37,19 +37,39 @@ partial class GestureBehavior
 			panGestureRecognizer.Delegate = multipleTouchesDelegate;
 			longPressGestureRecognizer.Delegate = multipleTouchesDelegate;
 		}
+		if (Tap?.GetInvocationList()?.Length > 0)
+		{
+			platformView.AddGestureRecognizer(tapGestureRecognizer);
+		}
 
-		platformView.AddGestureRecognizer(tapGestureRecognizer);
-		platformView.AddGestureRecognizer(doubleTapGestureRecognizer);
-		platformView.AddGestureRecognizer(panGestureRecognizer);
-		platformView.AddGestureRecognizer(longPressGestureRecognizer);
+		if (DoubleTap?.GetInvocationList()?.Length > 0)
+		{
+			platformView.AddGestureRecognizer(doubleTapGestureRecognizer);
+		}
+		if (Pan?.GetInvocationList()?.Length > 0 || Swipe?.GetInvocationList().Length > 0)
+		{
+			platformView.AddGestureRecognizer(panGestureRecognizer);
+		}
+		if (LongPress?.GetInvocationList()?.Length > 0)
+		{
+			platformView.AddGestureRecognizer(longPressGestureRecognizer);
+		}
+
 	}
 
 	protected override void OnDetachedFrom(VisualElement bindable, UIView platformView)
 	{
-		platformView.RemoveGestureRecognizer(tapGestureRecognizer);
-		platformView.RemoveGestureRecognizer(doubleTapGestureRecognizer);
-		platformView.RemoveGestureRecognizer(panGestureRecognizer);
-		platformView.RemoveGestureRecognizer(longPressGestureRecognizer);
+		if (tapGestureRecognizer is not null)
+			platformView.RemoveGestureRecognizer(tapGestureRecognizer);
+
+		if (doubleTapGestureRecognizer is not null)
+			platformView.RemoveGestureRecognizer(doubleTapGestureRecognizer);
+
+		if (panGestureRecognizer is not null)
+			platformView.RemoveGestureRecognizer(panGestureRecognizer);
+
+		if (longPressGestureRecognizer is not null)
+			platformView.RemoveGestureRecognizer(longPressGestureRecognizer);
 	}
 
 	void LongPressHandler(UILongPressGestureRecognizer gesture)
