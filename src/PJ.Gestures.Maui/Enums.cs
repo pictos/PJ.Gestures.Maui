@@ -1,6 +1,6 @@
 ﻿namespace PJ.Gestures.Maui;
 
-public enum Direction
+public enum Direction : byte
 {
 	Unknown,
 	Up,

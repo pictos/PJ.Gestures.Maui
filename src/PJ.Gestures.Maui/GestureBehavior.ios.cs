@@ -15,6 +15,7 @@ partial class GestureBehavior
 {
 	static readonly CustomGestureRecognizerDelegate multipleTouchesDelegate = new();
 	CGPoint previous = CGPoint.Empty;
+	Direction previousPanDirection = Direction.Unknown;
 
 	readonly UITapGestureRecognizer tapGestureRecognizer;
 	readonly UITapGestureRecognizer doubleTapGestureRecognizer;
@@ -54,7 +55,6 @@ partial class GestureBehavior
 		{
 			platformView.AddGestureRecognizer(longPressGestureRecognizer);
 		}
-
 	}
 
 	protected override void OnDetachedFrom(VisualElement bindable, UIView platformView)
@@ -167,10 +167,19 @@ partial class GestureBehavior
 			}
 		}
 
-		direction = CalculateDirection(translation, previous);
+		if (status is GestureStatus.Completed)
+		{
+			direction = previousPanDirection;
+			previousPanDirection = Direction.Unknown;
+		}
+		else
+		{
+			direction = CalculateDirection(translation, previous);
+		}
+
 		var args = new PanEventArgs(touches, distance, rect, direction, status);
 		PanFire(args);
-
+		previousPanDirection = direction;
 		previous = translation;
 
 		FINISH:

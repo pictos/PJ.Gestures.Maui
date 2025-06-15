@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PJ.Gestures.Maui.Samples.MoveSquarePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:gesture="clr-namespace:PJ.Gestures.Maui;assembly=PJ.Gestures.Maui"
+    Title="MoveSquarePage">
+    <AbsoluteLayout x:Name="abs">
+
+        <AbsoluteLayout.Behaviors>
+            <gesture:GestureBehavior Pan="GestureBehavior_Pan" />
+        </AbsoluteLayout.Behaviors>
+
+        <VerticalStackLayout
+            Padding="30,0"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All">
+
+            <Label x:Name="lbl" HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
+
+        <ContentView
+            x:Name="contentView"
+            AbsoluteLayout.LayoutFlags="None"
+            BackgroundColor="Black"
+            HeightRequest="80"
+            InputTransparent="True"
+            WidthRequest="80">
+
+            <ContentView
+                BackgroundColor="Red"
+                HeightRequest="5"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                WidthRequest="5" />
+
+        </ContentView>
+    </AbsoluteLayout>
+</ContentPage>
