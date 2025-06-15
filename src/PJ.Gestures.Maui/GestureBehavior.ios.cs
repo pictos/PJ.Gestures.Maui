@@ -1,5 +1,4 @@
 ﻿using CoreGraphics;
-using HealthKit;
 using UIKit;
 
 namespace PJ.Gestures.Maui;
@@ -55,7 +54,6 @@ partial class GestureBehavior
 		{
 			platformView.AddGestureRecognizer(longPressGestureRecognizer);
 		}
-
 	}
 
 	protected override void OnDetachedFrom(VisualElement bindable, UIView platformView)
