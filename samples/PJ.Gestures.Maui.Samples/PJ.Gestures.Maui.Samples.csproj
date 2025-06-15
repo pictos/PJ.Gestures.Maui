@@ -52,5 +52,4 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\PJ.Gestures.Maui\PJ.Gestures.Maui.csproj" />
 	</ItemGroup>
-
 </Project>
