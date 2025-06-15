@@ -10,6 +10,8 @@
                 Clicked="Button_Clicked"
                 HorizontalOptions="Fill"
                 Text="Move square into the screen" />
+
+            <Button Clicked="Button_Clicked_1" Text="Swap Page" />
         </VerticalStackLayout>
     </ScrollView>
 
