@@ -1,4 +1,5 @@
 ﻿using CoreGraphics;
+using HealthKit;
 using UIKit;
 
 namespace PJ.Gestures.Maui;
@@ -120,6 +121,7 @@ partial class GestureBehavior
 		DoubleTapFire(args);
 	}
 
+	Direction previousPanDirection = Direction.Unknown;
 	void PanGestureHandler(UIPanGestureRecognizer gesture)
 	{
 		var status = gesture.State.ToMauiStatus();
@@ -167,10 +169,19 @@ partial class GestureBehavior
 			}
 		}
 
-		direction = CalculateDirection(translation, previous);
+		if (status is GestureStatus.Completed)
+		{
+			direction = previousPanDirection;
+			previousPanDirection = Direction.Unknown;
+		}
+		else
+		{
+			direction = CalculateDirection(translation, previous);
+		}
+
 		var args = new PanEventArgs(touches, distance, rect, direction, status);
 		PanFire(args);
-
+		previousPanDirection = direction;
 		previous = translation;
 
 		FINISH:
