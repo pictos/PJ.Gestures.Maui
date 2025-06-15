@@ -15,6 +15,7 @@ partial class GestureBehavior
 {
 	static readonly CustomGestureRecognizerDelegate multipleTouchesDelegate = new();
 	CGPoint previous = CGPoint.Empty;
+	Direction previousPanDirection = Direction.Unknown;
 
 	readonly UITapGestureRecognizer tapGestureRecognizer;
 	readonly UITapGestureRecognizer doubleTapGestureRecognizer;
@@ -119,7 +120,6 @@ partial class GestureBehavior
 		DoubleTapFire(args);
 	}
 
-	Direction previousPanDirection = Direction.Unknown;
 	void PanGestureHandler(UIPanGestureRecognizer gesture)
 	{
 		var status = gesture.State.ToMauiStatus();

@@ -66,7 +66,7 @@ sealed class VerticalSwipeControl : ContentView
 		}
 		else
 		{
-			firstPage.TranslationY = window.Height;
+			secondPage.TranslationY = window.Height;
 		}
 	}
 
