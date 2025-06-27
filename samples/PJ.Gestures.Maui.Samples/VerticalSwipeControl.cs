@@ -32,7 +32,7 @@ sealed class VerticalSwipeControl : ContentView
 		Content = mainLayout;
 
 		this.Loaded += OnLoaded;
-		this.Unloaded += (s, e) => Window.SizeChanged -= Window_SizeChanged;
+		this.Unloaded += (s, e) => Window?.SizeChanged -= Window_SizeChanged;
 	}
 
 	void OnLoaded(object? sender, EventArgs e)
