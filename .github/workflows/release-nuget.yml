@@ -10,7 +10,7 @@ on:
     
 env:
     LIB_CSPROJ: src/PJ.Gestures.Maui/PJ.Gestures.Maui.csproj
-    PACKAGE_NAME: PJSouzaSoftware.Gesture.Maui
+    PACKAGE_NAME: PJSouzaSoftware.Gestures.Maui
 
 jobs:
   release-nuget:
