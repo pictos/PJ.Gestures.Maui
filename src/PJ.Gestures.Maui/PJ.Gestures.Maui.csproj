@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<Authors>Pedro Jesus</Authors>
 		<Company>PJSouzaSoftware</Company>
-		<Description>This project allows devs to implement and handle rich gesture on .NET MAUI</Description>
+		<Description>This project allows devs to implement and handle rich gestures on .NET MAUI</Description>
 
 		<PackageTags>.NET MAUI, GestureRecognizer, Gestures</PackageTags>
 		<PackageId>PJSouzaSoftware.Gestures.Maui</PackageId>
