@@ -9,7 +9,7 @@ on:
     - "v[0-9]+.[0-9]+.[0-9]+"
     
 env:
-    LIB_CSPROJ: PJ.Gesture.Maui/PJ.Gesture.Maui.csproj
+    LIB_CSPROJ: src/PJ.Gestures.Maui/PJ.Gestures.Maui.csproj
     PACKAGE_NAME: PJSouzaSoftware.Gesture.Maui
 
 jobs:
