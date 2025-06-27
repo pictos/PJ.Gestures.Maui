@@ -1,1 +1,24 @@
-<Project Sdk="Microsoft.NET.Sdk" />
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Authors>Pedro Jesus</Authors>
+		<Company>PJSouzaSoftware</Company>
+		<Description>This project allows devs to implement and handle rich gestures on .NET MAUI</Description>
+
+		<PackageTags>.NET MAUI, GestureRecognizer, Gestures</PackageTags>
+		<PackageId>PJSouzaSoftware.Gestures.Maui</PackageId>
+
+		<!--<PackageReadmeFile>README.md</PackageReadmeFile>-->
+		<RepositoryUrl>https://github.com/pictos/PJ.Gestures.Maui</RepositoryUrl>
+		<PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
+		<Product>Gestures.Maui</Product>
+		<Copyright>Copyright(c) 2025 Pedro Jesus</Copyright>
+
+		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
+
+
+</Project>
