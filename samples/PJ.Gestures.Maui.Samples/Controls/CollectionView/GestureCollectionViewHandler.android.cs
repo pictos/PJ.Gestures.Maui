@@ -71,8 +71,8 @@ class GestureRecyclerView : MauiRecyclerView<ReorderableItemsView, GroupableItem
 
 			if (r is GestureRecyclerView recyclerView && recyclerView.GetLayoutManager() is LinearLayoutManager layoutManager)
 			{
-				var firstVisibileItemPosition = layoutManager.FindFirstVisibleItemPosition();
-				recyclerView.isAtTop = firstVisibileItemPosition is 0;
+				var firstVisibleItemPosition = layoutManager.FindFirstVisibleItemPosition();
+				recyclerView.isAtTop = firstVisibleItemPosition is 0;
 			}
 		}
 	}
