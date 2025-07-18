@@ -21,8 +21,7 @@ public static class MauiProgram
 #if !WINDOWS
 				h.AddHandler(typeof(CollectionView), typeof(GestureCollectionViewHandler));
 #endif
-			})
-			.UsePJGestures();
+			});
 
 #if DEBUG
 		builder.Logging.AddDebug();
