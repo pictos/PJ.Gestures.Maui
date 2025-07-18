@@ -54,16 +54,16 @@ partial class GestureBehavior
 	}
 
 
-	void HandleFlowGesture(MotionEvent? e)
-	{
-		if (!FlowGesture || e is null)
-			return;
+	//void HandleFlowGesture(MotionEvent? e)
+	//{
+	//	if (!FlowGesture || e is null)
+	//		return;
 
-		foreach (var b in visualElement.HandleGestureOnParentes())
-		{
-			b.gestureDetector?.OnTouchEvent(e);
-		}
-	}
+	//	foreach (var b in visualElement.HandleGestureOnParentes())
+	//	{
+	//		b.gestureDetector?.OnTouchEvent(e);
+	//	}
+	//}
 
 	public void FireTouchEvent(MotionEvent e)
 	{

@@ -32,12 +32,12 @@ partial class GestureBehavior
 
 	protected override void OnAttachedTo(VisualElement bindable, UIView platformView)
 	{
-		if (FlowGesture)
-		{
-			doubleTapGestureRecognizer.Delegate = multipleTouchesDelegate;
-			panGestureRecognizer.Delegate = multipleTouchesDelegate;
-			longPressGestureRecognizer.Delegate = multipleTouchesDelegate;
-		}
+		//if (FlowGesture)
+		//{
+		//	doubleTapGestureRecognizer.Delegate = multipleTouchesDelegate;
+		//	panGestureRecognizer.Delegate = multipleTouchesDelegate;
+		//	longPressGestureRecognizer.Delegate = multipleTouchesDelegate;
+		//}
 		if (Tap?.GetInvocationList()?.Length > 0)
 		{
 			platformView.AddGestureRecognizer(tapGestureRecognizer);
