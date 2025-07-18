@@ -25,7 +25,7 @@ partial class GestureBehavior
 	public GestureBehavior()
 	{
 		tapGestureRecognizer = new(SingleTapHandler);
-		doubleTapGestureRecognizer = new(DoubleTapHandler);
+		doubleTapGestureRecognizer = new(DoubleTapHandler) { NumberOfTapsRequired = 2 };
 		panGestureRecognizer = new(PanGestureHandler);
 		longPressGestureRecognizer = new(LongPressHandler);
 	}
@@ -235,5 +235,26 @@ partial class GestureBehavior
 		}
 
 		return dY > 0 ? Direction.Down : Direction.Up;
+	}
+
+	public void HandleGestureFromParent(UIGestureRecognizer gesture)
+	{
+		if (!ReceiveGestureFromParent)
+		{
+			return;
+		}
+
+		switch (gesture)
+		{
+			case UITapGestureRecognizer tap:
+				SingleTapHandler(tap);
+				break;
+			case UIPanGestureRecognizer pan:
+				PanGestureHandler(pan);
+				break;
+			case UILongPressGestureRecognizer longPress:
+				LongPressHandler(longPress);
+				break;
+		}
 	}
 }

@@ -44,6 +44,33 @@ public partial class GestureBehavior : PlatformBehavior<VisualElement>
 		System.Diagnostics.Debug.WriteLine($"Called from {name} at line: {number}");
 	}
 
+	public void HandleGestureFromParent(BaseEventArgs args)
+	{
+		if (!ReceiveGestureFromParent)
+		{
+			return;
+		}
+
+		switch (args)
+		{
+			case TapEventArgs tap:
+				TapFire(tap);
+				break;
+
+			case LongPressEventArgs longPress:
+				LongPressFire(longPress);
+				break;
+			case SwipeEventArgs swipe:
+				SwipeFire(swipe);
+				break;
+			case PanEventArgs pan:
+				PanFire(pan);
+				break;
+			default:
+				throw new InvalidOperationException($"There's no case for {args.GetType().FullName}.");
+		}
+	}
+
 	internal static CancellationTokenSource RegisterNewCts() =>
 		new(TimeSpan.FromMilliseconds(100));
 }

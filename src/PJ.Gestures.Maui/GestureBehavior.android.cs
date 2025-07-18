@@ -43,6 +43,17 @@ partial class GestureBehavior
 		motion?.Recycle();
 	}
 
+	public void HandleGestureFromParent(MotionEvent? motion)
+	{
+		if (!ReceiveGestureFromParent || motion is null)
+		{
+			return;
+		}
+
+		gestureDetector?.OnTouchEvent(motion);
+	}
+
+
 	void HandleFlowGesture(MotionEvent? e)
 	{
 		if (!FlowGesture || e is null)
