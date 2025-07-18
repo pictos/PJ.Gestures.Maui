@@ -16,4 +16,14 @@ public partial class MainPage : ContentPage
 	{
 		Navigation.PushAsync(new VerticalSwipePage());
 	}
+
+	void Button_Clicked_2(object sender, EventArgs e)
+	{
+		Navigation.PushAsync(new AllGesturesPage());
+	}
+
+	void Button_Clicked_3(object sender, EventArgs e)
+	{
+		Navigation.PushAsync(new FlowGesturePage());
+	}
 }

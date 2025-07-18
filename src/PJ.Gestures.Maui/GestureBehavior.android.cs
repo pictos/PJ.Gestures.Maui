@@ -43,16 +43,27 @@ partial class GestureBehavior
 		motion?.Recycle();
 	}
 
-	void HandleFlowGesture(MotionEvent? e)
+	public void HandleGestureFromParent(MotionEvent? motion)
 	{
-		if (!FlowGesture || e is null)
-			return;
-
-		foreach (var b in visualElement.HandleGestureOnParentes())
+		if (!ReceiveGestureFromParent || motion is null)
 		{
-			b.gestureDetector?.OnTouchEvent(e);
+			return;
 		}
+
+		gestureDetector?.OnTouchEvent(motion);
 	}
+
+
+	//void HandleFlowGesture(MotionEvent? e)
+	//{
+	//	if (!FlowGesture || e is null)
+	//		return;
+
+	//	foreach (var b in visualElement.HandleGestureOnParentes())
+	//	{
+	//		b.gestureDetector?.OnTouchEvent(e);
+	//	}
+	//}
 
 	public void FireTouchEvent(MotionEvent e)
 	{
