@@ -7,7 +7,7 @@
 		<PackageTags>.NET MAUI, GestureRecognizer, Gestures</PackageTags>
 		<PackageId>PJSouzaSoftware.Gestures.Maui</PackageId>
 
-		<!--<PackageReadmeFile>README.md</PackageReadmeFile>-->
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/pictos/PJ.Gestures.Maui</RepositoryUrl>
 		<PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
 		<Product>Gestures.Maui</Product>
@@ -19,6 +19,10 @@
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\README.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
 
 
 </Project>
