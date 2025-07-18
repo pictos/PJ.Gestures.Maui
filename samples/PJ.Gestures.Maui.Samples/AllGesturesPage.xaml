@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+	x:Class="PJ.Gestures.Maui.Samples.AllGesturesPage"
+	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:gesture="clr-namespace:PJ.Gestures.Maui;assembly=PJ.Gestures.Maui"
+	Title="AllGesturesPage">
+	<VerticalStackLayout BackgroundColor="Azure">
+		<Label
+			x:Name="lbl"
+			FontSize="30"
+			HorizontalOptions="Center"
+			Text="Interact with this layout"
+			VerticalOptions="Center" />
+
+		<VerticalStackLayout.Behaviors>
+			<gesture:GestureBehavior
+				DoubleTap="GestureBehavior_DoubleTap"
+				LongPress="GestureBehavior_LongPress"
+				Pan="GestureBehavior_Pan"
+				ReceiveGestureFromParent="true"
+				Swipe="GestureBehavior_Swipe"
+				Tap="GestureBehavior_Tap" />
+		</VerticalStackLayout.Behaviors>
+
+	</VerticalStackLayout>
+</ContentPage>

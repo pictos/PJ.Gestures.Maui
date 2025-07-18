@@ -1,18 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="PJ.Gestures.Maui.Samples.MainPage"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+	x:Class="PJ.Gestures.Maui.Samples.MainPage"
+	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="30,0" Spacing="25">
-            <Button
-                Clicked="Button_Clicked"
-                HorizontalOptions="Fill"
-                Text="Move square into the screen" />
+	<ScrollView>
+		<VerticalStackLayout Padding="30,0" Spacing="25">
+			<Button
+				Clicked="Button_Clicked"
+				HorizontalOptions="Fill"
+				Text="Move square into the screen" />
 
-            <Button Clicked="Button_Clicked_1" Text="Swap Page" />
-        </VerticalStackLayout>
-    </ScrollView>
+			<Button Clicked="Button_Clicked_1" Text="Swap Page" />
+
+			<Button Clicked="Button_Clicked_2" Text="All Gestures" />
+			<Button Clicked="Button_Clicked_3" Text="Receive gesture from parent" />
+		</VerticalStackLayout>
+	</ScrollView>
 
 </ContentPage>
