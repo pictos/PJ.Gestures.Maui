@@ -71,6 +71,8 @@ partial class GestureBehavior
 
 		if (longPressGestureRecognizer is not null)
 			platformView.RemoveGestureRecognizer(longPressGestureRecognizer);
+
+		view = default!;
 	}
 
 	void LongPressHandler(UILongPressGestureRecognizer gesture)
