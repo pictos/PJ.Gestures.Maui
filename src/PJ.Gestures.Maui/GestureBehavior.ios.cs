@@ -32,6 +32,7 @@ partial class GestureBehavior
 
 	protected override void OnAttachedTo(VisualElement bindable, UIView platformView)
 	{
+		view = bindable;
 		//if (FlowGesture)
 		//{
 		//	doubleTapGestureRecognizer.Delegate = multipleTouchesDelegate;

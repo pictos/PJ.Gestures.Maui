@@ -12,7 +12,6 @@ partial class GestureBehavior
 {
 	IMauiContext mauiContext = default!;
 	FrameworkElement touchableView = default!;
-	VisualElement view = default!;
 	readonly WGestureRecognizer gestureRecognizer = new();
 	WWindow Window => mauiContext.Services.GetRequiredService<WWindow>();
 	bool isDoubleTap,

@@ -7,11 +7,10 @@ partial class GestureBehavior
 {
 	internal GestureDetector? gestureDetector;
 	internal AView? PlatformView { get; private set; }
-	VisualElement visualElement = default!;
 
 	protected override void OnAttachedTo(VisualElement bindable, AView platformView)
 	{
-		visualElement = bindable;
+		view = bindable;
 		PlatformView = platformView;
 		var context = platformView.Context;
 
@@ -26,7 +25,7 @@ partial class GestureBehavior
 		Assert(gestureDetector is not null, "GestureDetector shouldn't be null here!");
 		platformView.Touch -= OnPlatformTouch;
 		PlatformView = null;
-		visualElement = default!;
+		view = default!;
 		gestureDetector.Dispose();
 		gestureDetector = null;
 	}
