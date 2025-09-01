@@ -16,8 +16,7 @@ public partial class AllGesturesPage : ContentPage
 	{
 		Log("DoubleTap");
 
-		var g = (GestureBehavior)sender;
-		
+		var g = (VisualElement)sender;
 	}
 
 	void GestureBehavior_Tap(object sender, TapEventArgs e)

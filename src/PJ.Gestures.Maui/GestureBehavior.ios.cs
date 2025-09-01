@@ -32,6 +32,7 @@ partial class GestureBehavior
 
 	protected override void OnAttachedTo(VisualElement bindable, UIView platformView)
 	{
+		view = bindable;
 		//if (FlowGesture)
 		//{
 		//	doubleTapGestureRecognizer.Delegate = multipleTouchesDelegate;
@@ -70,6 +71,8 @@ partial class GestureBehavior
 
 		if (longPressGestureRecognizer is not null)
 			platformView.RemoveGestureRecognizer(longPressGestureRecognizer);
+
+		view = default!;
 	}
 
 	void LongPressHandler(UILongPressGestureRecognizer gesture)

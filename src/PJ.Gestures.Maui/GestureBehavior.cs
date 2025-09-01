@@ -8,6 +8,7 @@ namespace PJ.Gestures.Maui;
 /// </summary>
 public partial class GestureBehavior : PlatformBehavior<VisualElement>
 {
+	VisualElement view = default!;
 	TaskCompletionSource doubleTapCompletionSource = new();
 	CancellationTokenSource cts = RegisterNewCts();
 
@@ -61,37 +62,39 @@ public partial class GestureBehavior : PlatformBehavior<VisualElement>
 	/// Invokes the <see cref="Tap"/> event.
 	/// </summary>
 	/// <param name="args">The tap event arguments.</param>
-	internal void TapFire(TapEventArgs args) => Tap?.Invoke(this, args);
+	internal void TapFire(TapEventArgs args) => Tap?.Invoke(view, args);
 
 	/// <summary>
 	/// Invokes the <see cref="LongPress"/> event.
 	/// </summary>
 	/// <param name="args">The long press event arguments.</param>
-	internal void LongPressFire(LongPressEventArgs args) => LongPress?.Invoke(this, args);
+	internal void LongPressFire(LongPressEventArgs args) => LongPress?.Invoke(view, args);
 
 	/// <summary>
 	/// Invokes the <see cref="Pan"/> event.
 	/// </summary>
 	/// <param name="args">The pan event arguments.</param>
-	internal void PanFire(PanEventArgs args) => Pan?.Invoke(this, args);
+	internal void PanFire(PanEventArgs args) => Pan?.Invoke(view, args);
 
 	/// <summary>
 	/// Invokes the <see cref="Swipe"/> event.
 	/// </summary>
 	/// <param name="args">The swipe event arguments.</param>
-	internal void SwipeFire(SwipeEventArgs args) => Swipe?.Invoke(this, args);
+	internal void SwipeFire(SwipeEventArgs args) => Swipe?.Invoke(view, args);
 
 	/// <summary>
 	/// Invokes the <see cref="DoubleTap"/> event.
 	/// </summary>
 	/// <param name="args">The double tap event arguments.</param>
-	internal void DoubleTapFire(TapEventArgs args) => DoubleTap?.Invoke(this, args);
+	internal void DoubleTapFire(TapEventArgs args) => DoubleTap?.Invoke(view, args);
 
+#if DEBUG
 	static void Logger([CallerMemberName] string name = "", [CallerLineNumber] int number = 0)
 	{
 		System.Diagnostics.Debug.WriteLine(" ##############################");
 		System.Diagnostics.Debug.WriteLine($"Called from {name} at line: {number}");
 	}
+#endif
 
 	/// <summary>
 	/// Handles a gesture event received from the parent element, if <see cref="ReceiveGestureFromParent"/> is true.
