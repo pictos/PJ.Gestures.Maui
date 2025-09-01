@@ -13,7 +13,7 @@ A comprehensive gesture library for .NET MAUI that provides enhanced gesture sup
 
 ## Installation
 
-Add the [NuGet]([url](https://www.nuget.org/packages/PJSouzaSoftware.Gestures.Maui)) package to your .NET MAUI project:
+Add the [NuGet](https://www.nuget.org/packages/PJSouzaSoftware.Gestures.Maui) package to your .NET MAUI project:
 
 ```xml
 <PackageReference Include="PJSouzaSoftware.Gestures.Maui" Version="x.x.x" />
