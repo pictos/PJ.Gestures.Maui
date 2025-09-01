@@ -13,10 +13,10 @@ A comprehensive gesture library for .NET MAUI that provides enhanced gesture sup
 
 ## Installation
 
-Add the NuGet package to your .NET MAUI project:
+Add the [NuGet]([url](https://www.nuget.org/packages/PJSouzaSoftware.Gestures.Maui)) package to your .NET MAUI project:
 
 ```xml
-<PackageReference Include="PJ.Gestures.Maui" Version="x.x.x" />
+<PackageReference Include="PJSouzaSoftware.Gestures.Maui" Version="x.x.x" />
 ```
 
 ## Setup
@@ -334,3 +334,4 @@ public static class MauiProgram
 ## Support
 
 This project is open source and maintained by one person. If you need urgent fixes or custom features, you can support the development through [GitHub Sponsors](https://github.com/sponsors/pictos/sponsorships?sponsor=pictos&tier_id=485056&preview=false).
+
