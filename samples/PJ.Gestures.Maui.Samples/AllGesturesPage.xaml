@@ -8,9 +8,11 @@
 	<VerticalStackLayout BackgroundColor="Azure">
 		<Label
 			x:Name="lbl"
+			FontAttributes="Bold"
 			FontSize="30"
 			HorizontalOptions="Center"
 			Text="Interact with this layout"
+			TextColor="Red"
 			VerticalOptions="Center" />
 
 		<VerticalStackLayout.Behaviors>
