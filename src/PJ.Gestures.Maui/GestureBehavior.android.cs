@@ -107,6 +107,7 @@ sealed class SimpleGestureListener : GestureDetector.SimpleOnGestureListener
 	{
 		var args = GenerateTapEventArgs(e);
 		behavior.TapFire(args);
+		behavior.SendGestureToParent(args);
 
 		return base.OnSingleTapConfirmed(e);
 	}
@@ -115,6 +116,7 @@ sealed class SimpleGestureListener : GestureDetector.SimpleOnGestureListener
 	{
 		var args = GenerateLongPressEventArgs(e);
 		behavior.LongPressFire(args);
+		behavior.SendGestureToParent(args);
 
 		base.OnLongPress(e);
 	}
@@ -140,6 +142,7 @@ sealed class SimpleGestureListener : GestureDetector.SimpleOnGestureListener
 
 		var args = new PanEventArgs(touches, distance, behavior.PlatformView.GetViewPosition(), direction, status);
 		behavior.PanFire(args);
+		behavior.SendGestureToParent(args);
 
 		if (e2.Action == MotionEventActions.Up)
 		{
@@ -170,6 +173,7 @@ sealed class SimpleGestureListener : GestureDetector.SimpleOnGestureListener
 
 			var args = new SwipeEventArgs(touches, distance, velocity, behavior.PlatformView.GetViewPosition(), direction);
 			behavior.SwipeFire(args);
+			behavior.SendGestureToParent(args);
 		}
 
 		isScrolling = false;
@@ -182,6 +186,7 @@ sealed class SimpleGestureListener : GestureDetector.SimpleOnGestureListener
 	{
 		var args = GenerateTapEventArgs(e);
 		behavior.DoubleTapFire(args);
+		behavior.SendGestureToParent(args);
 		return base.OnDoubleTap(e);
 	}
 
@@ -209,6 +214,7 @@ sealed class SimpleGestureListener : GestureDetector.SimpleOnGestureListener
 		var args = new PanEventArgs(touches, distance, behavior.PlatformView.GetViewPosition(), direction, GestureStatus.Completed);
 
 		behavior.PanFire(args);
+		behavior.SendGestureToParent(args);
 
 		isScrolling = false;
 	}
