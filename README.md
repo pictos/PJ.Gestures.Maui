@@ -108,7 +108,7 @@ Enable gesture propagation from parent elements:
 <ContentPage>
     <ContentPage.Behaviors>
         <gesture:GestureBehavior 
-            ReceiveGestureFromParent="true" 
+            ReceiveGestureFromChild="true" 
             Swipe="OnPageSwipe" />
     </ContentPage.Behaviors>
     
@@ -284,11 +284,11 @@ Adjust the sensitivity of swipe detection:
 GestureBehavior.SwipeVelocityThreshold = 0.2f; // Default is 0.1f
 ```
 
-### Receive Gesture From Parent
-Enable gesture propagation from parent elements:
+### Receive Gesture From Child
+Receives the gestures from `Child` if they have the `FlowGesture` set as `true`.
 
 ```xml
-<gesture:GestureBehavior ReceiveGestureFromParent="true" />
+<gesture:GestureBehavior ReceiveGestureFromChild="true" />
 ```
 
 ## Collection View Integration
