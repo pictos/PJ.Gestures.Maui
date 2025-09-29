@@ -7,17 +7,22 @@
 	Title="FlowGesturePage">
 
 	<ContentPage.Behaviors>
-		<gesture:GestureBehavior ReceiveGestureFromParent="true" Swipe="GestureBehavior_Swipe" />
+		<gesture:GestureBehavior ReceiveGestureFromParent="false" Tap="GestureBehavior_Tap_1" />
 	</ContentPage.Behaviors>
+	<Grid
+		Background="Fuchsia"
+		HorizontalOptions="Center"
+		VerticalOptions="Center">
+		<Label
+			Background="Black"
+			FontSize="40"
+			HorizontalOptions="Center"
+			Text="Click here"
+			TextColor="White"
+			VerticalOptions="Center" />
 
-	<CollectionView x:Name="cv">
-		<CollectionView.ItemTemplate>
-			<DataTemplate>
-				<VerticalStackLayout>
-					<Label FontSize="16" Text="This is a title!" />
-					<Label Text="{Binding .}" />
-				</VerticalStackLayout>
-			</DataTemplate>
-		</CollectionView.ItemTemplate>
-	</CollectionView>
+		<Grid.Behaviors>
+			<gesture:GestureBehavior FlowGesture="True" Tap="GestureBehavior_Tap" />
+		</Grid.Behaviors>
+	</Grid>
 </ContentPage>
