@@ -72,6 +72,7 @@ partial class GestureBehavior
 			var rect = CalculateElementRect(uiElement);
 			var arg = new PanEventArgs([touch], Vector2.Zero, rect, Direction.Unknown, GestureStatus.Canceled);
 			PanFire(arg);
+			SendGestureToParent(arg);
 			isScrolling = false;
 		}
 
@@ -176,12 +177,14 @@ partial class GestureBehavior
 			{
 				var swipeArgs = new SwipeEventArgs([touch], distance, new((float)velocities.X, (float)velocities.Y), rect, direction);
 				SwipeFire(swipeArgs);
+				SendGestureToParent(swipeArgs);
 				goto END;
 			}
 		}
 
 		var arg = new PanEventArgs([touch], distance, rect, direction, GestureStatus.Completed);
 		PanFire(arg);
+		SendGestureToParent(arg);
 
 		END:
 		isScrolling = false;
@@ -199,6 +202,7 @@ partial class GestureBehavior
 
 		var arg = new PanEventArgs([touch], distance, rect, direction, GestureStatus.Running);
 		PanFire(arg);
+		SendGestureToParent(arg);
 	}
 
 	void OnManipulationStarted(WGestureRecognizer sender, ManipulationStartedEventArgs args)
@@ -209,6 +213,7 @@ partial class GestureBehavior
 
 		var arg = new PanEventArgs([touch], Vector2.Zero, rect, Direction.Unknown, GestureStatus.Started);
 		PanFire(arg);
+		SendGestureToParent(arg);
 	}
 
 	void OnRightTapped(WGestureRecognizer sender, RightTappedEventArgs args)
@@ -246,6 +251,7 @@ partial class GestureBehavior
 		var args = new TapEventArgs(new(touch.X, touch.Y), rect);
 		DoubleTapFire(args);
 		e.Handled = true;
+		SendGestureToParent(args);
 
 		//TODO: FlowGesture to inner views
 	}
@@ -272,6 +278,7 @@ partial class GestureBehavior
 			if (t.Status == TaskStatus.Canceled)
 			{
 				TapFire(arg);
+				SendGestureToParent(arg);
 			}
 		}, CancellationToken.None, TaskContinuationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
 	}
@@ -294,6 +301,7 @@ partial class GestureBehavior
 		var touch = position.ToMauiPoint();
 		var arg = new LongPressEventArgs(touch, rect);
 		LongPressFire(arg);
+		SendGestureToParent(arg);
 	}
 
 	static Direction ComputeDirection(double dX, double dY)

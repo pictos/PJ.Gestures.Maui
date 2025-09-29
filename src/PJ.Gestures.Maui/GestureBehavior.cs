@@ -51,7 +51,7 @@ public partial class GestureBehavior : PlatformBehavior<VisualElement>
 	/// </summary>
 	public bool ReceiveGestureFromParent { get; set; }
 
-	//public bool FlowGesture { get; set; }
+	public bool FlowGesture { get; set; }
 
 	/// <summary>
 	/// Gets or sets the velocity threshold for swipe detection.
@@ -101,13 +101,8 @@ public partial class GestureBehavior : PlatformBehavior<VisualElement>
 	/// </summary>
 	/// <param name="args">The gesture event arguments.</param>
 	/// <exception cref="InvalidOperationException">Thrown if the event type is not supported.</exception>
-	public void HandleGestureFromParent(BaseEventArgs args)
+	public void FlowGestureImpl(BaseEventArgs args)
 	{
-		if (!ReceiveGestureFromParent)
-		{
-			return;
-		}
-
 		switch (args)
 		{
 			case TapEventArgs tap:
@@ -126,6 +121,20 @@ public partial class GestureBehavior : PlatformBehavior<VisualElement>
 			default:
 				throw new InvalidOperationException($"There's no case for {args.GetType().FullName}.");
 		}
+	}
+
+	public void SendGestureToParent(BaseEventArgs args)
+	{
+		if (!FlowGesture)
+		{
+			return;
+		}
+
+		foreach (var behavior in view.HandleGestureOnParents())
+		{
+			behavior.FlowGestureImpl(args);
+		}
+
 	}
 
 	/// <summary>
