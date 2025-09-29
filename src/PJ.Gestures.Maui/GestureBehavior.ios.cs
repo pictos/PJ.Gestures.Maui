@@ -261,7 +261,7 @@ partial class GestureBehavior
 
 	public void HandleGestureFromParent(UIGestureRecognizer gesture)
 	{
-		if (!ReceiveGestureFromParent)
+		if (!ReceiveGestureFromChild)
 		{
 			return;
 		}

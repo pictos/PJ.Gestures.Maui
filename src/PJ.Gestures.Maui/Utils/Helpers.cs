@@ -17,7 +17,7 @@ static partial class Helpers
 
 		while (element is VisualElement parent)
 		{
-			foreach (var behavior in parent.Behaviors.OfType<GestureBehavior>().Where(x => x.ReceiveGestureFromParent))
+			foreach (var behavior in parent.Behaviors.OfType<GestureBehavior>().Where(x => x.ReceiveGestureFromChild))
 			{
 				yield return behavior;
 			}

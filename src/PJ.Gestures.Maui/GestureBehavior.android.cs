@@ -44,7 +44,7 @@ partial class GestureBehavior
 
 	public void HandleGestureFromParent(MotionEvent? motion)
 	{
-		if (!ReceiveGestureFromParent || motion is null)
+		if (!ReceiveGestureFromChild || motion is null)
 		{
 			return;
 		}
