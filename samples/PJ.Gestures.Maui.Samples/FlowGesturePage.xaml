@@ -7,7 +7,7 @@
 	Title="FlowGesturePage">
 
 	<ContentPage.Behaviors>
-		<gesture:GestureBehavior ReceiveGestureFromParent="false" Tap="GestureBehavior_Tap_1" />
+		<gesture:GestureBehavior ReceiveGestureFromParent="True" Tap="GestureBehavior_Tap_1" />
 	</ContentPage.Behaviors>
 	<Grid
 		Background="Fuchsia"

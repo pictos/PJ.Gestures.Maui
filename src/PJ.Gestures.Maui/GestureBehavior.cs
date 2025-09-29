@@ -96,12 +96,7 @@ public partial class GestureBehavior : PlatformBehavior<VisualElement>
 	}
 #endif
 
-	/// <summary>
-	/// Handles a gesture event received from the parent element, if <see cref="ReceiveGestureFromParent"/> is true.
-	/// </summary>
-	/// <param name="args">The gesture event arguments.</param>
-	/// <exception cref="InvalidOperationException">Thrown if the event type is not supported.</exception>
-	public void FlowGestureImpl(BaseEventArgs args)
+	void FlowGestureImpl(BaseEventArgs args)
 	{
 		switch (args)
 		{
@@ -123,6 +118,11 @@ public partial class GestureBehavior : PlatformBehavior<VisualElement>
 		}
 	}
 
+	/// <summary>
+	/// Handles a gesture event received from the parent element, if <see cref="ReceiveGestureFromParent"/> is true.
+	/// </summary>
+	/// <param name="args">The gesture event arguments.</param>
+	/// <exception cref="InvalidOperationException">Thrown if the event type is not supported.</exception>
 	public void SendGestureToParent(BaseEventArgs args)
 	{
 		if (!FlowGesture)
@@ -134,7 +134,6 @@ public partial class GestureBehavior : PlatformBehavior<VisualElement>
 		{
 			behavior.FlowGestureImpl(args);
 		}
-
 	}
 
 	/// <summary>

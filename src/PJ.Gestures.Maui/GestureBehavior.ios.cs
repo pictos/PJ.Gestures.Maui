@@ -17,43 +17,44 @@ partial class GestureBehavior
 	CGPoint previous = CGPoint.Empty;
 	Direction previousPanDirection = Direction.Unknown;
 
-	readonly UITapGestureRecognizer tapGestureRecognizer;
-	readonly UITapGestureRecognizer doubleTapGestureRecognizer;
-	readonly UIPanGestureRecognizer panGestureRecognizer;
-	readonly UILongPressGestureRecognizer longPressGestureRecognizer;
-
-	public GestureBehavior()
-	{
-		tapGestureRecognizer = new(SingleTapHandler);
-		doubleTapGestureRecognizer = new(DoubleTapHandler) { NumberOfTapsRequired = 2 };
-		panGestureRecognizer = new(PanGestureHandler);
-		longPressGestureRecognizer = new(LongPressHandler);
-	}
+	UITapGestureRecognizer? tapGestureRecognizer;
+	UITapGestureRecognizer? doubleTapGestureRecognizer;
+	UIPanGestureRecognizer? panGestureRecognizer;
+	UILongPressGestureRecognizer? longPressGestureRecognizer;
 
 	protected override void OnAttachedTo(VisualElement bindable, UIView platformView)
 	{
 		view = bindable;
-		//if (FlowGesture)
-		//{
-		//	doubleTapGestureRecognizer.Delegate = multipleTouchesDelegate;
-		//	panGestureRecognizer.Delegate = multipleTouchesDelegate;
-		//	longPressGestureRecognizer.Delegate = multipleTouchesDelegate;
-		//}
+
 		if (Tap?.GetInvocationList()?.Length > 0)
 		{
+			tapGestureRecognizer = new(SingleTapHandler);
 			platformView.AddGestureRecognizer(tapGestureRecognizer);
 		}
 
 		if (DoubleTap?.GetInvocationList()?.Length > 0)
 		{
+			doubleTapGestureRecognizer = new(DoubleTapHandler)
+			{
+				NumberOfTapsRequired = 2,
+				Delegate = multipleTouchesDelegate
+			};
 			platformView.AddGestureRecognizer(doubleTapGestureRecognizer);
 		}
 		if (Pan?.GetInvocationList()?.Length > 0 || Swipe?.GetInvocationList().Length > 0)
 		{
+			panGestureRecognizer = new(PanGestureHandler)
+			{
+				Delegate = multipleTouchesDelegate
+			};
 			platformView.AddGestureRecognizer(panGestureRecognizer);
 		}
 		if (LongPress?.GetInvocationList()?.Length > 0)
 		{
+			longPressGestureRecognizer = new(LongPressHandler)
+			{
+				Delegate = multipleTouchesDelegate
+			};
 			platformView.AddGestureRecognizer(longPressGestureRecognizer);
 		}
 	}
@@ -61,16 +62,28 @@ partial class GestureBehavior
 	protected override void OnDetachedFrom(VisualElement bindable, UIView platformView)
 	{
 		if (tapGestureRecognizer is not null)
+		{
 			platformView.RemoveGestureRecognizer(tapGestureRecognizer);
+			tapGestureRecognizer.Delegate = default!;
+		}
 
 		if (doubleTapGestureRecognizer is not null)
+		{
 			platformView.RemoveGestureRecognizer(doubleTapGestureRecognizer);
+			doubleTapGestureRecognizer.Delegate = default!;
+		}
 
 		if (panGestureRecognizer is not null)
+		{
 			platformView.RemoveGestureRecognizer(panGestureRecognizer);
+			panGestureRecognizer.Delegate = default!;
+		}
 
 		if (longPressGestureRecognizer is not null)
+		{
 			platformView.RemoveGestureRecognizer(longPressGestureRecognizer);
+			longPressGestureRecognizer.Delegate = default!;
+		}
 
 		view = default!;
 	}
@@ -87,6 +100,7 @@ partial class GestureBehavior
 		var args = new LongPressEventArgs(touch, rect);
 
 		LongPressFire(args);
+		SendGestureToParent(args);
 	}
 
 	void SingleTapHandler(UITapGestureRecognizer gesture)
@@ -106,6 +120,7 @@ partial class GestureBehavior
 			{
 				var args = new TapEventArgs(touch, rect);
 				TapFire(args);
+				SendGestureToParent(args);
 			}
 		}, CancellationToken.None, TaskContinuationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
 	}
@@ -121,6 +136,7 @@ partial class GestureBehavior
 
 		var args = new TapEventArgs(touch, rect);
 		DoubleTapFire(args);
+		SendGestureToParent(args);
 	}
 
 	void PanGestureHandler(UIPanGestureRecognizer gesture)
@@ -159,10 +175,12 @@ partial class GestureBehavior
 
 				var panArgs = new PanEventArgs(touches, distance, rect, direction, GestureStatus.Canceled);
 				PanFire(panArgs);
+				SendGestureToParent(panArgs);
 
 				var swipeArgs = new SwipeEventArgs(touches, distance, new((float)velocity.X, (float)velocity.Y), rect, direction);
 
 				SwipeFire(swipeArgs);
+				SendGestureToParent(swipeArgs);
 
 				gesture.CancelsTouchesInView = true;
 
@@ -182,6 +200,7 @@ partial class GestureBehavior
 
 		var args = new PanEventArgs(touches, distance, rect, direction, status);
 		PanFire(args);
+		SendGestureToParent(args);
 		previousPanDirection = direction;
 		previous = translation;
 
