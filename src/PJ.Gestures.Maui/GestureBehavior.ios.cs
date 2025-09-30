@@ -1,4 +1,5 @@
-﻿using CoreGraphics;
+﻿using System.ComponentModel;
+using CoreGraphics;
 using UIKit;
 
 namespace PJ.Gestures.Maui;
@@ -259,8 +260,34 @@ partial class GestureBehavior
 		return dY > 0 ? Direction.Down : Direction.Up;
 	}
 
-	public void HandleGestureFromParent(UIGestureRecognizer gesture)
+	/// <summary>
+	/// Handles a gesture originating from a child native <see cref="UIView"/> and re-invokes the
+	/// corresponding handlers on this behavior when <see cref="ReceiveGestureFromChild"/> is enabled.
+	/// </summary>
+	/// <param name="gesture">
+	/// The iOS <see cref="UIGestureRecognizer"/> instance received from a child view.
+	/// Supported types: <see cref="UITapGestureRecognizer"/>, <see cref="UIPanGestureRecognizer"/>,
+	/// <see cref="UILongPressGestureRecognizer"/>.
+	/// </param>
+	/// <remarks>
+	/// This method allows gesture bubbling from nested native views back into the MAUI behavior pipeline.
+	/// Tap gestures are further differentiated:
+	/// <list type="bullet">
+	/// <item>
+	/// <description>Single touch tap triggers <see cref="SingleTapHandler"/>.</description>
+	/// </item>
+	/// <item>
+	/// <description>Two touch tap triggers <see cref="DoubleTapHandler"/> (mirrors double-tap semantics).</description>
+	/// </item>
+	/// </list>
+	/// Pan and long press gestures are forwarded directly to their respective handlers.
+	/// Gestures are ignored entirely when <see cref="ReceiveGestureFromChild"/> is <c>false</c>.
+	/// </remarks>
+	/// <exception cref="ArgumentNullException"><paramref name="gesture"/> is <c>null</c>.</exception>
+	[EditorBrowsable(EditorBrowsableState.Advanced)]
+	public void HandleGestureFromChild(UIGestureRecognizer gesture)
 	{
+		ArgumentNullException.ThrowIfNull(gesture);
 		if (!ReceiveGestureFromChild)
 		{
 			return;
@@ -269,7 +296,10 @@ partial class GestureBehavior
 		switch (gesture)
 		{
 			case UITapGestureRecognizer tap:
-				SingleTapHandler(tap);
+				if (tap.NumberOfTouches is 1)
+					SingleTapHandler(tap);
+				else if (tap.NumberOfTouches is 2)
+					DoubleTapHandler(tap);
 				break;
 			case UIPanGestureRecognizer pan:
 				PanGestureHandler(pan);

@@ -1,4 +1,5 @@
-﻿using Android.Content;
+﻿using System.ComponentModel;
+using Android.Content;
 using Android.Views;
 using Microsoft.Maui.Platform;
 
@@ -42,27 +43,46 @@ partial class GestureBehavior
 		motion?.Recycle();
 	}
 
-	public void HandleGestureFromParent(MotionEvent? motion)
+	/// <summary>
+	/// Handles a gesture <see cref="MotionEvent"/> that originated from a descendant view
+	/// and was bubbled up (flowed) to this behavior.
+	/// </summary>
+	/// <param name="motion">The Android <see cref="MotionEvent"/> to process.</param>
+	/// <remarks>
+	/// This method allows parent gesture behaviors to participate in gesture handling
+	/// that began on a child element.
+	/// A child must explicitly forward its motion events (e.g., by calling an equivalent
+	/// forwarding API) and have its own gesture flow enabled.
+	/// Processing only occurs when <see cref="ReceiveGestureFromChild"/> is <c>true</c>;
+	/// otherwise the method returns without side effects.
+	/// 
+	/// Typical flow:
+	/// 1. Child behavior detects / receives a platform <see cref="MotionEvent"/>.
+	/// 2. Child (with FlowGesture enabled) forwards it upward.
+	/// 3. Parent (with <see cref="ReceiveGestureFromChild"/> = true) invokes this method.
+	/// 4. The internal <see cref="GestureDetector"/> interprets the event (tap, pan, etc.).
+	/// 
+	/// Safety:
+	/// The method defensively validates <paramref name="motion"/> and ignores processing
+	/// when the detector is not yet initialized (e.g., lifecycle edge cases).
+	/// </remarks>
+	/// <example>
+	/// if (parentBehavior.ReceiveGestureFromChild)
+	/// {
+	///     parentBehavior.HandleGestureFromChild(motionEvent);
+	/// }
+	/// </example>
+	[EditorBrowsable(EditorBrowsableState.Advanced)]
+	public void HandleGestureFromChild(MotionEvent motion)
 	{
-		if (!ReceiveGestureFromChild || motion is null)
+		ArgumentNullException.ThrowIfNull(motion);
+		if (!ReceiveGestureFromChild)
 		{
 			return;
 		}
 
 		gestureDetector?.OnTouchEvent(motion);
 	}
-
-
-	//void HandleFlowGesture(MotionEvent? e)
-	//{
-	//	if (!FlowGesture || e is null)
-	//		return;
-
-	//	foreach (var b in visualElement.HandleGestureOnParentes())
-	//	{
-	//		b.gestureDetector?.OnTouchEvent(e);
-	//	}
-	//}
 
 	public void FireTouchEvent(MotionEvent e)
 	{
