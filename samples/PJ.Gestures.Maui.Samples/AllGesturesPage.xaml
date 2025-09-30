@@ -20,7 +20,7 @@
 				DoubleTap="GestureBehavior_DoubleTap"
 				LongPress="GestureBehavior_LongPress"
 				Pan="GestureBehavior_Pan"
-				ReceiveGestureFromParent="true"
+				ReceiveGestureFromChild="true"
 				Swipe="GestureBehavior_Swipe"
 				Tap="GestureBehavior_Tap" />
 		</VerticalStackLayout.Behaviors>

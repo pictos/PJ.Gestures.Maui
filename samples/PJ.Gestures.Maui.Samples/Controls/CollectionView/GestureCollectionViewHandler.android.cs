@@ -55,7 +55,7 @@ class GestureRecyclerView : MauiRecyclerView<ReorderableItemsView, GroupableItem
 		{
 			if (Parent is LayoutViewGroup viewGroup && viewGroup.CrossPlatformLayout is VisualElement visual)
 				foreach (var b in visual.HandleGestureOnParents())
-					b.HandleGestureFromParent(ev);
+					b.HandleGestureFromChild(ev);
 		}
 	}
 

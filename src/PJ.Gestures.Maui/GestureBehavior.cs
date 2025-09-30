@@ -47,11 +47,34 @@ public partial class GestureBehavior : PlatformBehavior<VisualElement>
 	}
 
 	/// <summary>
-	/// Gets or sets a value indicating whether this behavior should receive gestures from its parent.
+	/// Gets or sets a value indicating whether this behavior should receive and process
+	/// gesture events that were originated on descendant <see cref="VisualElement"/>s
+	/// and bubbled upward by those descendants via <see cref="FlowGesture"/>.
 	/// </summary>
-	public bool ReceiveGestureFromParent { get; set; }
+	/// <remarks>
+	/// For a parent behavior to receive a child's gesture:
+	/// 1. The child behavior must have <see cref="FlowGesture"/> set to <c>true</c>.
+	/// 2. The parent behavior must have <see cref="ReceiveGestureFromChild"/> set to <c>true</c>.
+	/// 
+	/// When <c>false</c> (default), this behavior only reacts to gestures performed directly
+	/// on its associated view and ignores bubbled gestures from descendants.
+	/// </remarks>
+	/// <value>
+	/// <c>true</c> to allow handling of gestures bubbled from child elements; otherwise, <c>false</c>.
+	/// </value>
+	public bool ReceiveGestureFromChild { get; set; }
 
-	//public bool FlowGesture { get; set; }
+	/// <summary>
+	/// Gets or sets a value indicating whether gesture events handled by this behavior
+	/// should be propagated to ancestor <see cref="VisualElement"/> gesture behaviors.
+	/// </summary>
+	/// <remarks>
+	/// When <c>true</c>, each recognized gesture (tap, double tap, long press, pan, swipe)
+	/// is forwarded via <see cref="SendGestureToParent(BaseEventArgs)"/> so parent behaviors
+	/// can also process it. Use this to enable layered or cooperative gesture handling.
+	/// When <c>false</c> (default), gestures are not bubbled upward.
+	/// </remarks>
+	public bool FlowGesture { get; set; }
 
 	/// <summary>
 	/// Gets or sets the velocity threshold for swipe detection.
@@ -96,18 +119,8 @@ public partial class GestureBehavior : PlatformBehavior<VisualElement>
 	}
 #endif
 
-	/// <summary>
-	/// Handles a gesture event received from the parent element, if <see cref="ReceiveGestureFromParent"/> is true.
-	/// </summary>
-	/// <param name="args">The gesture event arguments.</param>
-	/// <exception cref="InvalidOperationException">Thrown if the event type is not supported.</exception>
-	public void HandleGestureFromParent(BaseEventArgs args)
+	void FlowGestureImpl(BaseEventArgs args)
 	{
-		if (!ReceiveGestureFromParent)
-		{
-			return;
-		}
-
 		switch (args)
 		{
 			case TapEventArgs tap:
@@ -125,6 +138,24 @@ public partial class GestureBehavior : PlatformBehavior<VisualElement>
 				break;
 			default:
 				throw new InvalidOperationException($"There's no case for {args.GetType().FullName}.");
+		}
+	}
+
+	/// <summary>
+	/// Handles a gesture event received from the parent element, if <see cref="ReceiveGestureFromChild"/> is true.
+	/// </summary>
+	/// <param name="args">The gesture event arguments.</param>
+	/// <exception cref="InvalidOperationException">Thrown if the event type is not supported.</exception>
+	public void SendGestureToParent(BaseEventArgs args)
+	{
+		if (!FlowGesture)
+		{
+			return;
+		}
+
+		foreach (var behavior in view.HandleGestureOnParents())
+		{
+			behavior.FlowGestureImpl(args);
 		}
 	}
 

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel;
+using System.Diagnostics;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using PJ.Gestures.Maui.Utils;
@@ -18,7 +19,6 @@ partial class GestureBehavior
 		isScrolling,
 		isGestureSucceed;
 
-
 	public GestureBehavior()
 	{
 		gestureRecognizer.GestureSettings = WGestureSettings.Tap |
@@ -27,6 +27,105 @@ partial class GestureBehavior
 			WGestureSettings.ManipulationTranslateX |
 			WGestureSettings.ManipulationTranslateY |
 			WGestureSettings.RightTap;
+	}
+
+	/// <summary>
+	/// Forwards routed gesture / pointer events coming from a child element to this behavior so
+	/// that they participate in the same gesture recognition pipeline as events raised directly
+	/// on the attached (root) <see cref="FrameworkElement"/>.
+	/// </summary>
+	/// <param name="args">
+	/// The routed event arguments originating from a child element. Supported types:
+	/// <list type="bullet">
+	/// <item><description><see cref="Microsoft.UI.Xaml.Input.PointerRoutedEventArgs"/>: Replayed into the pointer
+	/// lifecycle handlers (<c>OnPointerPressed</c>, <c>OnPointerMoved</c>, <c>OnPointerReleased</c>, <c>OnPointerCanceled</c>).</description></item>
+	/// <item><description><see cref="Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs"/>: Forwarded to
+	/// <c>OnDoubleTapped</c> to preserve double-tap detection logic.</description></item>
+	/// </list>
+	/// </param>
+	/// <remarks>
+	/// <para>
+	/// This method is only active when <c>ReceiveGestureFromChild</c> is true (property defined in another
+	/// partial of <see cref="GestureBehavior"/>). It does NOT call the underlying <see cref="WGestureRecognizer"/>
+	/// directly; instead it reuses the existing pointer handlers to maintain identical state transitions and
+	/// gesture cancellation semantics.
+	/// </para>
+	/// <para>
+	/// Pointer forwarding logic:
+	/// <list type="number">
+	/// <item>Determines a stable <see cref="FrameworkElement"/> (original source if possible, else the root touchable view)
+	/// to keep coordinate space consistent.</item>
+	/// <item>Maps <see cref="PointerUpdateKind"/> to Pressed / Released / Move flows; canceled or out-of-range
+	/// transitions are converted into a cancel pathway.</item>
+	/// <item>Skips processing if the pointer is no longer in range and not in contact (mirrors native cancel heuristics).</item>
+	/// </list>
+	/// </para>
+	/// <para>
+	/// Double-tap events are surfaced separately on Windows (XAML raises a distinct routed event), so they must be
+	/// explicitly captured here to keep parity with tap / double-tap timing logic implemented elsewhere.
+	/// </para>
+	/// <para>
+	/// Unsupported routed event argument types are ignored silently.
+	/// </para>
+	/// </remarks>
+	[EditorBrowsable(EditorBrowsableState.Advanced)]
+	public void HandleGestureFromChild(RoutedEventArgs args)
+	{
+		ArgumentNullException.ThrowIfNull(args);
+		if (!ReceiveGestureFromChild)
+			return;
+
+		switch (args)
+		{
+			case Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e:
+				{
+					var sourceElement = e.OriginalSource as FrameworkElement ?? touchableView;
+
+					var point = e.GetCurrentPoint(sourceElement);
+					var props = point.Properties;
+
+					if (props.IsCanceled)
+					{
+						OnPointerCanceled(sourceElement, e);
+						return;
+					}
+
+					if (!e.Pointer.IsInRange && !e.Pointer.IsInContact)
+					{
+						OnPointerCanceled(sourceElement, e);
+						return;
+					}
+
+					var kind = props.PointerUpdateKind;
+
+					if (kind is PointerUpdateKind.LeftButtonPressed
+						or PointerUpdateKind.RightButtonPressed
+						or PointerUpdateKind.MiddleButtonPressed
+						or PointerUpdateKind.XButton1Pressed
+						or PointerUpdateKind.XButton2Pressed)
+					{
+						OnPointerPressed(sourceElement, e);
+						return;
+					}
+
+					if (kind is PointerUpdateKind.LeftButtonReleased
+						or PointerUpdateKind.RightButtonReleased
+						or PointerUpdateKind.MiddleButtonReleased
+						or PointerUpdateKind.XButton1Released
+						or PointerUpdateKind.XButton2Released)
+					{
+						OnPointerReleased(sourceElement, e);
+						return;
+					}
+
+					OnPointerMoved(sourceElement, e);
+					return;
+				}
+
+			case Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs d:
+				OnDoubleTapped(d.OriginalSource, d);
+				return;
+		}
 	}
 
 	protected override void OnAttachedTo(VisualElement bindable, FrameworkElement platformView)
@@ -72,6 +171,7 @@ partial class GestureBehavior
 			var rect = CalculateElementRect(uiElement);
 			var arg = new PanEventArgs([touch], Vector2.Zero, rect, Direction.Unknown, GestureStatus.Canceled);
 			PanFire(arg);
+			SendGestureToParent(arg);
 			isScrolling = false;
 		}
 
@@ -176,12 +276,14 @@ partial class GestureBehavior
 			{
 				var swipeArgs = new SwipeEventArgs([touch], distance, new((float)velocities.X, (float)velocities.Y), rect, direction);
 				SwipeFire(swipeArgs);
+				SendGestureToParent(swipeArgs);
 				goto END;
 			}
 		}
 
 		var arg = new PanEventArgs([touch], distance, rect, direction, GestureStatus.Completed);
 		PanFire(arg);
+		SendGestureToParent(arg);
 
 		END:
 		isScrolling = false;
@@ -199,6 +301,7 @@ partial class GestureBehavior
 
 		var arg = new PanEventArgs([touch], distance, rect, direction, GestureStatus.Running);
 		PanFire(arg);
+		SendGestureToParent(arg);
 	}
 
 	void OnManipulationStarted(WGestureRecognizer sender, ManipulationStartedEventArgs args)
@@ -209,6 +312,7 @@ partial class GestureBehavior
 
 		var arg = new PanEventArgs([touch], Vector2.Zero, rect, Direction.Unknown, GestureStatus.Started);
 		PanFire(arg);
+		SendGestureToParent(arg);
 	}
 
 	void OnRightTapped(WGestureRecognizer sender, RightTappedEventArgs args)
@@ -246,6 +350,7 @@ partial class GestureBehavior
 		var args = new TapEventArgs(new(touch.X, touch.Y), rect);
 		DoubleTapFire(args);
 		e.Handled = true;
+		SendGestureToParent(args);
 
 		//TODO: FlowGesture to inner views
 	}
@@ -272,6 +377,7 @@ partial class GestureBehavior
 			if (t.Status == TaskStatus.Canceled)
 			{
 				TapFire(arg);
+				SendGestureToParent(arg);
 			}
 		}, CancellationToken.None, TaskContinuationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
 	}
@@ -294,6 +400,7 @@ partial class GestureBehavior
 		var touch = position.ToMauiPoint();
 		var arg = new LongPressEventArgs(touch, rect);
 		LongPressFire(arg);
+		SendGestureToParent(arg);
 	}
 
 	static Direction ComputeDirection(double dX, double dY)
