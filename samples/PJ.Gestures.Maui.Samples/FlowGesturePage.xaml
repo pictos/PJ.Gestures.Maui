@@ -7,7 +7,8 @@
 	Title="FlowGesturePage">
 
 	<ContentPage.Behaviors>
-		<gesture:GestureBehavior ReceiveGestureFromChild="False" Tap="GestureBehavior_Tap_1" />
+		<gesture:GestureBehavior ReceiveGestureFromChild="False"
+                                 Tap="GestureBehavior_Tap_1" DoubleTap="GestureBehavior_OnDoubleTap_1"/>
 	</ContentPage.Behaviors>
 	<Grid
 		Background="Fuchsia"
@@ -22,7 +23,7 @@
 			VerticalOptions="Center" />
 
 		<Grid.Behaviors>
-			<gesture:GestureBehavior FlowGesture="True" Tap="GestureBehavior_Tap" />
+			<gesture:GestureBehavior FlowGesture="True" Tap="GestureBehavior_Tap"  DoubleTap="GestureBehavior_OnDoubleTap"/>
 		</Grid.Behaviors>
 	</Grid>
 </ContentPage>

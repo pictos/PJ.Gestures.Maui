@@ -47,7 +47,7 @@ class GestureReorderableItemsViewController : ReorderableItemsViewController<Reo
 			var panGesture = uiCollectionView.PanGestureRecognizer;
 
 			foreach (var b in behaviors)
-				b.HandleGestureFromParent(panGesture);
+				b.HandleGestureFromChild(panGesture);
 
 			END:
 			base.Scrolled(scrollView);
