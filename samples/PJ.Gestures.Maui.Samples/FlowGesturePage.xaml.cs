@@ -30,11 +30,11 @@ public partial class FlowGesturePage : ContentPage
 
 	void GestureBehavior_OnDoubleTap(object? sender, TapEventArgs e)
 	{
-		
+
 	}
 
 	void GestureBehavior_OnDoubleTap_1(object? sender, TapEventArgs e)
 	{
-		
+
 	}
 }

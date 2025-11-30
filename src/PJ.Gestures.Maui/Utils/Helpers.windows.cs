@@ -2,6 +2,7 @@
 using WPoint = Windows.Foundation.Point;
 
 namespace PJ.Gestures.Maui.Utils;
+
 static class Helpers
 {
 	public static Point ToMauiPoint(this WPoint wPoint) =>

@@ -2,6 +2,7 @@
 using System.Linq;
 
 namespace PJ.Gestures.Maui.Samples;
+
 static class MauiExtensions
 {
 	public static IEnumerable<GestureBehavior> HandleGestureOnParents(this VisualElement visualElement)

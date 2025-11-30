@@ -2,6 +2,7 @@
 using Android.Runtime;
 
 namespace PJ.Gestures.Maui.Samples;
+
 [Application]
 public class MainApplication : MauiApplication
 {

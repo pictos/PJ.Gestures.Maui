@@ -1,4 +1,5 @@
 ﻿namespace PJ.Gestures.Maui.Samples;
+
 sealed class VerticalSwipePage : ContentPage
 {
 	public VerticalSwipePage()

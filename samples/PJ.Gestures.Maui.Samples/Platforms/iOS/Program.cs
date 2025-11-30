@@ -1,6 +1,7 @@
 ﻿using UIKit;
 
 namespace PJ.Gestures.Maui.Samples;
+
 public class Program
 {
 	// This is the main entry point of the application.
