@@ -27,12 +27,23 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 10.0.x
 
     - name: Get Nuget version and Name for PR
       if: ${{ github.event_name == 'pull_request' }}
       run: |
         echo "NugetPackageVersion=${{ env.CurrentSemanticVersionBase }}-build-${{ github.event.pull_request.number }}.${{ github.run_number }}+${{ github.sha }}"
       shell: bash
+
+    - name: Workload install
+      run: |
+        dotnet workload install maui
+        dotnet workload install maui-windows
+        dotnet workload update
 
     - name: Build library
       run: dotnet build ${{env.LIB_CSPROJ}} -c Release
