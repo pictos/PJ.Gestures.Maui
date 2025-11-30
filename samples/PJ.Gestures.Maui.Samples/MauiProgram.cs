@@ -4,6 +4,7 @@ using PJ.Gestures.Maui.Samples.Controls;
 #endif
 
 namespace PJ.Gestures.Maui.Samples;
+
 public static class MauiProgram
 {
 	public static MauiApp CreateMauiApp()

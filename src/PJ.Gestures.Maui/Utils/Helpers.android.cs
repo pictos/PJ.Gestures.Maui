@@ -4,6 +4,7 @@ using Android.Views;
 using Microsoft.Maui.Platform;
 
 namespace PJ.Gestures.Maui;
+
 partial class Helpers
 {
 	public static Rect GetViewPosition(this AView? view)
@@ -49,7 +50,7 @@ partial class Helpers
 		var dY = e2.GetY() - e1.GetY();
 
 		return ComputeVector(dX, dY, context);
-		
+
 		static Vector2 ComputeVector(float x, float y, Context context)
 		{
 			x = (float)context.FromPixels(x);

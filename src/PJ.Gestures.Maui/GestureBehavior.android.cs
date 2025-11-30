@@ -4,6 +4,7 @@ using Android.Views;
 using Microsoft.Maui.Platform;
 
 namespace PJ.Gestures.Maui;
+
 partial class GestureBehavior
 {
 	internal GestureDetector? gestureDetector;
