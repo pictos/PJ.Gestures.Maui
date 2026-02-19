@@ -26,10 +26,20 @@ partial class GestureBehavior
 	{
 		Assert(gestureDetector is not null, "GestureDetector shouldn't be null here!");
 		platformView.Touch -= OnPlatformTouch;
+		platformView.SetOnTouchListener(null);
 		PlatformView = null;
 		view = default!;
 		gestureDetector.Dispose();
 		gestureDetector = null;
+	}
+
+	internal void HandleTouch(MotionEvent e)
+	{
+		Assert(gestureDetector is not null, "GestureDetector shouldn't be null here!");
+		gestureDetector.OnTouchEvent(e);
+		var motion = MotionEvent.Obtain(e);
+
+		motion?.Recycle();
 	}
 
 	void OnPlatformTouch(object? sender, AView.TouchEventArgs e)
@@ -42,6 +52,12 @@ partial class GestureBehavior
 		var motion = MotionEvent.Obtain(@event);
 
 		motion?.Recycle();
+
+		if (FlowGesture)
+		{
+			var view = (PlatformView?.Parent as AView);
+			view?.OnTouchEvent(@event);
+		}
 	}
 
 	/// <summary>
