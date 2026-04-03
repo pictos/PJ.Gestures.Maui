@@ -22,6 +22,7 @@
 				Pan="GestureBehavior_Pan"
 				ReceiveGestureFromChild="true"
 				Swipe="GestureBehavior_Swipe"
+				TouchStatus="GestureBehavior_TouchStatus"
 				Tap="GestureBehavior_Tap" />
 		</VerticalStackLayout.Behaviors>
 

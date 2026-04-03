@@ -38,4 +38,9 @@ public partial class AllGesturesPage : ContentPage
 	{
 		Log("LongPress");
 	}
+
+	void GestureBehavior_TouchStatus(object sender, TouchStatusEventArgs e)
+	{
+		Log(e.Touchstatus.ToString());
+	}
 }
