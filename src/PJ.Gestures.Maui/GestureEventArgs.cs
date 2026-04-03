@@ -1,6 +1,6 @@
 ﻿namespace PJ.Gestures.Maui;
 
-public sealed class StatusEventArgs(Rect viewPosition, TouchStatus status) : BaseEventArgs(viewPosition)
+public sealed class TouchStatusEventArgs(Rect viewPosition, TouchStatus status) : BaseEventArgs(viewPosition)
 {
 	public TouchStatus Touchstatus { get; } = status;
 }

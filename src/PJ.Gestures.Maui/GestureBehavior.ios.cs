@@ -22,18 +22,29 @@ partial class GestureBehavior
 	UITapGestureRecognizer? doubleTapGestureRecognizer;
 	UIPanGestureRecognizer? panGestureRecognizer;
 	UILongPressGestureRecognizer? longPressGestureRecognizer;
+	UITapGestureRecognizer? touchStatusRecognizer;
 
 	protected override void OnAttachedTo(VisualElement bindable, UIView platformView)
 	{
 		view = bindable;
 
-		if (Tap?.GetInvocationList()?.Length > 0)
+		if (TouchStatus?.GetInvocationList().Length > 0)
+		{
+			touchStatusRecognizer = new(TouchStatusHandler)
+			{
+				Delegate = multipleTouchesDelegate	
+			};
+
+			platformView.AddGestureRecognizer(touchStatusRecognizer);
+		}
+
+		if (Tap?.GetInvocationList().Length > 0)
 		{
 			tapGestureRecognizer = new(SingleTapHandler);
 			platformView.AddGestureRecognizer(tapGestureRecognizer);
 		}
 
-		if (DoubleTap?.GetInvocationList()?.Length > 0)
+		if (DoubleTap?.GetInvocationList().Length > 0)
 		{
 			doubleTapGestureRecognizer = new(DoubleTapHandler)
 			{
@@ -42,7 +53,8 @@ partial class GestureBehavior
 			};
 			platformView.AddGestureRecognizer(doubleTapGestureRecognizer);
 		}
-		if (Pan?.GetInvocationList()?.Length > 0 || Swipe?.GetInvocationList().Length > 0)
+
+		if (Pan?.GetInvocationList().Length > 0 || Swipe?.GetInvocationList().Length > 0)
 		{
 			panGestureRecognizer = new(PanGestureHandler)
 			{
@@ -50,7 +62,8 @@ partial class GestureBehavior
 			};
 			platformView.AddGestureRecognizer(panGestureRecognizer);
 		}
-		if (LongPress?.GetInvocationList()?.Length > 0)
+
+		if (LongPress?.GetInvocationList().Length > 0)
 		{
 			longPressGestureRecognizer = new(LongPressHandler)
 			{
@@ -58,7 +71,9 @@ partial class GestureBehavior
 			};
 			platformView.AddGestureRecognizer(longPressGestureRecognizer);
 		}
+
 	}
+
 
 	protected override void OnDetachedFrom(VisualElement bindable, UIView platformView)
 	{
@@ -86,7 +101,31 @@ partial class GestureBehavior
 			longPressGestureRecognizer.Delegate = default!;
 		}
 
+		if (touchStatusRecognizer is not null)
+		{
+			platformView.RemoveGestureRecognizer(touchStatusRecognizer);
+			touchStatusRecognizer.Delegate = default!;
+		}
+
 		view = default!;
+	}
+	
+	void TouchStatusHandler(UITapGestureRecognizer gesture)
+	{
+		var view = gesture.View;
+		switch (gesture.State)
+		{
+			case UIGestureRecognizerState.Began:
+				var rect = CalculateViewPosition(view);
+				TouchStatusFire(new (rect, Maui.TouchStatus.Pressed));
+			break;
+			case UIGestureRecognizerState.Ended:
+			case UIGestureRecognizerState.Cancelled:
+				rect = CalculateViewPosition(view);
+				TouchStatusFire(new (rect, Maui.TouchStatus.Normal));
+			break;
+			//TODO see if there's hover on iOS
+		}
 	}
 
 	void LongPressHandler(UILongPressGestureRecognizer gesture)

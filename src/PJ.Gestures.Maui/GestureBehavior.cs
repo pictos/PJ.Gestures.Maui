@@ -13,7 +13,7 @@ public partial class GestureBehavior : PlatformBehavior<VisualElement>
 	TaskCompletionSource doubleTapCompletionSource = new();
 	CancellationTokenSource cts = RegisterNewCts();
 
-	public event EventHandler<StatusEventArgs>? TouchStatus;
+	public event EventHandler<TouchStatusEventArgs>? TouchStatus;
 
 	/// <summary>
 	/// Occurs when a tap gesture is detected.
@@ -114,7 +114,7 @@ public partial class GestureBehavior : PlatformBehavior<VisualElement>
 	/// <param name="args">The double tap event arguments.</param>
 	internal void DoubleTapFire(TapEventArgs args) => DoubleTap?.Invoke(view, args);
 
-	internal void TouchStatusFire(StatusEventArgs args) => TouchStatus?.Invoke(view, args);
+	internal void TouchStatusFire(TouchStatusEventArgs args) => TouchStatus?.Invoke(view, args);
 
 #if DEBUG
 	static void Logger([CallerMemberName] string name = "", [CallerLineNumber] int number = 0)
