@@ -8,3 +8,10 @@ public enum Direction : byte
 	Right,
 	Left
 }
+
+public enum TouchStatus : byte
+{
+	Normal,
+	HoverOver,
+	Pressed,
+}

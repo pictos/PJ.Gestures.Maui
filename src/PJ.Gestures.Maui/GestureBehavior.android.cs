@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel;
 using Android.Content;
+using Android.Text.Method;
 using Android.Views;
+using AndroidX.ConstraintLayout.Core.Motion;
 using Microsoft.Maui.Platform;
 
 namespace PJ.Gestures.Maui;
@@ -10,11 +12,13 @@ partial class GestureBehavior
 	internal GestureDetector? gestureDetector;
 	internal AView? PlatformView { get; private set; }
 
+	Context context = default!;
+
 	protected override void OnAttachedTo(VisualElement bindable, AView platformView)
 	{
 		view = bindable;
 		PlatformView = platformView;
-		var context = platformView.Context;
+		context = platformView.Context!;
 
 		Assert(context is not null);
 
@@ -30,6 +34,7 @@ partial class GestureBehavior
 		view = default!;
 		gestureDetector.Dispose();
 		gestureDetector = null;
+		context = null;
 	}
 
 	void OnPlatformTouch(object? sender, AView.TouchEventArgs e)
@@ -37,11 +42,31 @@ partial class GestureBehavior
 		Assert(gestureDetector is not null, "GestureDetector shouldn't be null here!");
 		Assert(e.Event is not null);
 		var @event = e.Event;
-
+		
+		HandleTouchStatus(@event);
 		gestureDetector.OnTouchEvent(@event);
 		var motion = MotionEvent.Obtain(@event);
 
 		motion?.Recycle();
+	}
+
+	void HandleTouchStatus(MotionEvent motion)
+	{
+		switch (motion.Action)
+		{
+			case MotionEventActions.ButtonPress:
+			case MotionEventActions.Down:
+				TouchStatusFire(new (PlatformView.GetViewPosition(), Maui.TouchStatus.Pressed));
+				break;
+			case MotionEventActions.Up:
+			case MotionEventActions.PointerUp:
+				TouchStatusFire(new (PlatformView.GetViewPosition(), Maui.TouchStatus.Normal));
+				break;
+			case MotionEventActions.HoverEnter:
+				TouchStatusFire(new (PlatformView.GetViewPosition(), Maui.TouchStatus.Pressed));
+				break;
+		}
+
 	}
 
 	/// <summary>

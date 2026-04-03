@@ -8,9 +8,12 @@ namespace PJ.Gestures.Maui;
 /// </summary>
 public partial class GestureBehavior : PlatformBehavior<VisualElement>
 {
+
 	VisualElement view = default!;
 	TaskCompletionSource doubleTapCompletionSource = new();
 	CancellationTokenSource cts = RegisterNewCts();
+
+	public event EventHandler<StatusEventArgs>? TouchStatus;
 
 	/// <summary>
 	/// Occurs when a tap gesture is detected.
@@ -110,6 +113,8 @@ public partial class GestureBehavior : PlatformBehavior<VisualElement>
 	/// </summary>
 	/// <param name="args">The double tap event arguments.</param>
 	internal void DoubleTapFire(TapEventArgs args) => DoubleTap?.Invoke(view, args);
+
+	internal void TouchStatusFire(StatusEventArgs args) => TouchStatus?.Invoke(view, args);
 
 #if DEBUG
 	static void Logger([CallerMemberName] string name = "", [CallerLineNumber] int number = 0)

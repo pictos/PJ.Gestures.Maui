@@ -1,5 +1,10 @@
 ﻿namespace PJ.Gestures.Maui;
 
+public sealed class StatusEventArgs(Rect viewPosition, TouchStatus status) : BaseEventArgs(viewPosition)
+{
+	public TouchStatus Touchstatus { get; } = status;
+}
+
 public sealed class PanEventArgs(Point[] touches, Vector2 distance, Rect viewPosition, Direction direction, GestureStatus status) : MotionEventArgs(touches, viewPosition, direction)
 {
 	public Vector2 Distance { get; } = distance;
