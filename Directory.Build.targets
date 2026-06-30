@@ -11,6 +11,12 @@
 		<None Include="**\*.ios.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
 	</ItemGroup>
 
+	<!-- Mac Catalyst -->
+	<ItemGroup Condition="$(IsMacCatalyst) != true">
+		<Compile Remove="**\*.maccatalyst.cs" />
+		<None Include="**\*.maccatalyst.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+	</ItemGroup>
+
 	<!--Windows-->
 	<ItemGroup Condition="$(IsWindows) != true">
 		<Compile Remove="**\*.Windows.cs" />

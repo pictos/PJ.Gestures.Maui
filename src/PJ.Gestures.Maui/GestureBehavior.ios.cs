@@ -58,6 +58,8 @@ partial class GestureBehavior
 			};
 			platformView.AddGestureRecognizer(longPressGestureRecognizer);
 		}
+
+		OnAttachedToPlatform(platformView);
 	}
 
 	protected override void OnDetachedFrom(VisualElement bindable, UIView platformView)
@@ -86,8 +88,12 @@ partial class GestureBehavior
 			longPressGestureRecognizer.Delegate = default!;
 		}
 
+		OnDetachedFromPlatform(platformView);
 		view = default!;
 	}
+
+	partial void OnAttachedToPlatform(UIView platformView);
+	partial void OnDetachedFromPlatform(UIView platformView);
 
 	void LongPressHandler(UILongPressGestureRecognizer gesture)
 	{
