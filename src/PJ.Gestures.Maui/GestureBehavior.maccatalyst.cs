@@ -1,3 +1,4 @@
+using CoreGraphics;
 using Foundation;
 using UIKit;
 
@@ -5,64 +6,54 @@ namespace PJ.Gestures.Maui;
 
 partial class GestureBehavior
 {
-	UIGestureRecognizer? secondaryClickGestureRecognizer;
+	UIContextMenuInteraction? contextMenuInteraction;
+	RightClickInteractionDelegate? contextMenuDelegate;
 
 	partial void OnAttachedToPlatform(UIView platformView)
 	{
-		secondaryClickGestureRecognizer = new SecondaryClickGestureRecognizer(SecondaryClickHandler)
-		{
-			Delegate = multipleTouchesDelegate
-		};
-		platformView.AddGestureRecognizer(secondaryClickGestureRecognizer);
+		contextMenuDelegate = new RightClickInteractionDelegate(platformView, this);
+		contextMenuInteraction = new UIContextMenuInteraction(contextMenuDelegate);
+		platformView.AddInteraction(contextMenuInteraction);
 	}
 
 	partial void OnDetachedFromPlatform(UIView platformView)
 	{
-		if (secondaryClickGestureRecognizer is not null)
+		if (contextMenuInteraction is not null)
 		{
-			platformView.RemoveGestureRecognizer(secondaryClickGestureRecognizer);
-			secondaryClickGestureRecognizer.Delegate = default!;
+			platformView.RemoveInteraction(contextMenuInteraction);
+			contextMenuInteraction = null;
+			contextMenuDelegate = null;
 		}
-	}
-
-	void SecondaryClickHandler(UIGestureRecognizer gesture)
-	{
-		var view = gesture.View;
-		var rect = CalculateViewPosition(view);
-		var touch = CalculateTouch(gesture, view);
-		var args = new LongPressEventArgs(touch, rect);
-		LongPressFire(args);
-		SendGestureToParent(args);
 	}
 }
 
 /// <summary>
-/// Detects a secondary (right) mouse button click on Mac Catalyst and fires immediately on press.
-/// Mimics the Windows <c>RightTapped</c> gesture behavior which also maps right-click to long press.
+/// Intercepts secondary (right) mouse button clicks on Mac Catalyst via
+/// <see cref="UIContextMenuInteraction"/> and fires the <see cref="GestureBehavior.LongPress"/>
+/// event without displaying a context menu, mirroring the Windows <c>RightTapped</c> behavior.
 /// </summary>
-sealed class SecondaryClickGestureRecognizer : UIGestureRecognizer
+sealed class RightClickInteractionDelegate : NSObject, IUIContextMenuInteractionDelegate
 {
-	readonly Action<UIGestureRecognizer> handler;
+	readonly UIView platformView;
+	readonly GestureBehavior behavior;
 
-	public SecondaryClickGestureRecognizer(Action<UIGestureRecognizer> handler)
+	public RightClickInteractionDelegate(UIView platformView, GestureBehavior behavior)
 	{
-		this.handler = handler;
+		this.platformView = platformView;
+		this.behavior = behavior;
 	}
 
-	public override void TouchesBegan(NSSet touches, UIEvent evt)
+	public UIContextMenuConfiguration? GetConfigurationForMenu(UIContextMenuInteraction interaction, CGPoint location)
 	{
-		base.TouchesBegan(touches, evt);
+		var viewBounds = platformView.Bounds;
+		var rect = new Rect(viewBounds.X, viewBounds.Y, viewBounds.Width, viewBounds.Height);
+		var touch = new Point(location.X, location.Y);
 
-		if (touches.AnyObject is UITouch touch &&
-			touch.Type == UITouchType.IndirectPointer &&
-			(evt.ButtonMask & UIEventButtonMask.Secondary) != 0)
-		{
-			State = UIGestureRecognizerState.Recognized;
-			handler(this);
-		}
-		else
-		{
-			State = UIGestureRecognizerState.Failed;
-		}
+		var args = new LongPressEventArgs(touch, rect);
+		behavior.LongPressFire(args);
+		behavior.SendGestureToParent(args);
+
+		// Return null to suppress the system context menu
+		return null;
 	}
 }
