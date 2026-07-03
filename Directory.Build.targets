@@ -5,10 +5,16 @@
 		<None Include="**\*.android.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
 	</ItemGroup>
 
-	<!-- iOS -->
-	<ItemGroup Condition="$(IsIos) != true">
+	<!-- iOS and Mac Catalyst share UIKit gesture recognizers -->
+	<ItemGroup Condition="$(IsIos) != true AND $(IsMacCatalyst) != true">
 		<Compile Remove="**\*.ios.cs" />
 		<None Include="**\*.ios.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+	</ItemGroup>
+
+	<!-- Mac Catalyst -->
+	<ItemGroup Condition="$(IsMacCatalyst) != true">
+		<Compile Remove="**\*.maccatalyst.cs" />
+		<None Include="**\*.maccatalyst.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
 	</ItemGroup>
 
 	<!--Windows-->
