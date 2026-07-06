@@ -152,7 +152,10 @@ partial class GestureBehavior
 		var view = gesture.View;
 		var translation = gesture.TranslationInView(view);
 		var velocity = gesture.VelocityInView(view);
-		var distance = new Vector2((float)translation.X, (float)translation.Y);
+
+	
+		var cumulative = new Vector2((float)translation.X, (float)translation.Y);
+		var distance = new Vector2((float)(translation.X - previous.X), (float)(translation.Y - previous.Y));
 
 		var touches = CalculateTouches(gesture, view);
 		var rect = CalculateViewPosition(view);
@@ -180,11 +183,11 @@ partial class GestureBehavior
 					direction = velocity.Y > 0 ? Direction.Down : Direction.Up;
 				}
 
-				var panArgs = new PanEventArgs(touches, distance, rect, direction, GestureStatus.Canceled);
+				var panArgs = new PanEventArgs(touches, cumulative, rect, direction, GestureStatus.Canceled);
 				PanFire(panArgs);
 				SendGestureToParent(panArgs);
 
-				var swipeArgs = new SwipeEventArgs(touches, distance, new((float)velocity.X, (float)velocity.Y), rect, direction);
+				var swipeArgs = new SwipeEventArgs(touches, cumulative, new((float)velocity.X, (float)velocity.Y), rect, direction);
 
 				SwipeFire(swipeArgs);
 				SendGestureToParent(swipeArgs);
