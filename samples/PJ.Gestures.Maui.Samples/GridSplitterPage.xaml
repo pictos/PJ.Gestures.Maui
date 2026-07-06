@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+	x:Class="PJ.Gestures.Maui.Samples.GridSplitterPage"
+	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:gridSplitter="clr-namespace:PJ.Gestures.Maui.Samples.Controls.GridSplitter">
+
+	<Grid ColumnSpacing="0">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition />
+			<ColumnDefinition Width="10" />
+			<ColumnDefinition />
+			<ColumnDefinition Width="10" />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
+		<Grid Grid.Column="0" BackgroundColor="Red">
+			<Label Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." TextColor="White" />
+		</Grid>
+		<Grid Grid.Column="2" BackgroundColor="Green">
+			<Label Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." TextColor="White" />
+		</Grid>
+		<Grid Grid.Column="4" BackgroundColor="Blue">
+			<Label Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." TextColor="White" />
+		</Grid>
+		<gridSplitter:GridSplitter Grid.Column="1" ResizeDirection="Columns" />
+		<gridSplitter:GridSplitter Grid.Column="3" ResizeDirection="Columns" />
+	</Grid>
+
+</ContentPage>
