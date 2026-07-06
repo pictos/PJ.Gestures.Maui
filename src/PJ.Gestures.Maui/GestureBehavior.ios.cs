@@ -152,7 +152,6 @@ partial class GestureBehavior
 		var view = gesture.View;
 		var translation = gesture.TranslationInView(view);
 		var velocity = gesture.VelocityInView(view);
-
 	
 		var cumulative = new Vector2((float)translation.X, (float)translation.Y);
 		var distance = new Vector2((float)(translation.X - previous.X), (float)(translation.Y - previous.Y));
