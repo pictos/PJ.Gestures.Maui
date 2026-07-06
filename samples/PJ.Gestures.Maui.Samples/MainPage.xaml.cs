@@ -26,4 +26,9 @@ public partial class MainPage : ContentPage
 	{
 		Navigation.PushAsync(new FlowGesturePage());
 	}
+
+	void Button_OnClicked(object? sender, EventArgs e)
+	{
+		Navigation.PushAsync(new GridSplitterPage());
+	}
 }
