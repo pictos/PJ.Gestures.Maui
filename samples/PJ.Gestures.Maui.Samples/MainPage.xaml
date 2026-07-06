@@ -15,7 +15,7 @@
 
 			<Button Clicked="Button_Clicked_2" Text="All Gestures" />
 			<Button Clicked="Button_Clicked_3" Text="Receive gesture from parent" />
-            <Button Clicked="Button_OnClicked" Text="GridSpliiter sample"/>
+			<Button Clicked="Button_OnClicked" Text="GridSplitter sample" />
 		</VerticalStackLayout>
 	</ScrollView>
 
