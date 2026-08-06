@@ -165,4 +165,11 @@ public partial class GestureBehavior : PlatformBehavior<VisualElement>
 	/// <returns>A new <see cref="CancellationTokenSource"/> instance.</returns>
 	internal static CancellationTokenSource RegisterNewCts() =>
 		new(TimeSpan.FromMilliseconds(100));
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	internal static bool HasListener(EventHandler<EventArgs> handler)
+	{
+		var invocations = handler.GetInvocationList();
+		return invocations.Length > 0;
+	}
 }
