@@ -339,18 +339,8 @@ and selects Xcode 27.1 to match the .NET 10 iOS workload.
 
 Pushing a version tag such as `v1.2.3` triggers `.github/workflows/release-nuget.yml`.
 Publishing uses [NuGet Trusted Publishing](https://learn.microsoft.com/en-us/nuget/nuget-org/trusted-publishing)
-through `NuGet/login@v1`, rather than a stored API key. The NuGet policy must match:
-
-- NuGet user/package owner: `PedroJesus`
-- Repository owner: `pictos`
-- Repository: `PJ.Gestures.Maui`
-- Workflow file: `release-nuget.yml`
-- Package: `PJSouzaSoftware.Gestures.Maui`
-- Environment: leave empty (the workflow does not use a GitHub environment)
-
-The release job requests an OIDC token using `id-token: write` and exchanges it for
-a short-lived NuGet API key immediately before publishing. The package push also
-publishes its matching `.snupkg` symbol package.
+rather than a stored API key. The package push also publishes its matching `.snupkg`
+symbol package.
 
 ## Support
 
