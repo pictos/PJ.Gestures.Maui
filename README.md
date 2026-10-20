@@ -335,7 +335,7 @@ public static class MauiProgram
 
 The build and release workflows install the latest stable .NET 10 SDK.
 The macOS build uses GitHub's `xcode-27` runner image (macOS 27, currently in preview)
-and selects Xcode 27.0.
+and selects Xcode 27.1 to match the .NET 10 iOS workload.
 
 Pushing a version tag such as `v1.2.3` triggers `.github/workflows/release-nuget.yml`.
 Publishing uses [NuGet Trusted Publishing](https://learn.microsoft.com/en-us/nuget/nuget-org/trusted-publishing)
