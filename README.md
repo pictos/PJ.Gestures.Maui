@@ -331,7 +331,17 @@ public static class MauiProgram
 4. **Context Menus**: Use long press to show context options
 5. **Quick Actions**: Implement double tap for quick actions
 
+## CI and releases
+
+The build and release workflows install the latest stable .NET 10 SDK.
+The macOS build uses GitHub's `xcode-27` runner image (macOS 27, currently in preview)
+and selects Xcode 27.1 to match the .NET 10 iOS workload.
+
+Pushing a version tag such as `v1.2.3` triggers `.github/workflows/release-nuget.yml`.
+Publishing uses [NuGet Trusted Publishing](https://learn.microsoft.com/en-us/nuget/nuget-org/trusted-publishing)
+rather than a stored API key. The package push also publishes its matching `.snupkg`
+symbol package.
+
 ## Support
 
 This project is open source and maintained by one person. If you need urgent fixes or custom features, you can support the development through [GitHub Sponsors](https://github.com/sponsors/pictos/sponsorships?sponsor=pictos&tier_id=485056&preview=false).
-
